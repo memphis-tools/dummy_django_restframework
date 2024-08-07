@@ -35,6 +35,8 @@ jobs:
         flake8 movies/ --max-line-length=127 --count --statistics
 
     - name: Run Tests and Upload Coverage
+      env:
+        SECRET_KEY: "dummy-secret-key"
       run: |
         coverage run -m pytest
         coverage report
