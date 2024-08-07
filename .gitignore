@@ -1,0 +1,17 @@
+__pycache__
+env
+.env
+.env.rc
+.envrc
+venv
+.venv
+db.sqlite3
+.pytest_cache
+.coverage
+html_report
+.cache
+*.pyc
+staticfiles
+flake8_report
+flake8_rapport
+lint.txt

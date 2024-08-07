@@ -1,0 +1,24 @@
+[run]
+branch = True
+source =
+  movies
+
+[report]
+omit = */movies/management/*, \
+  */__init__.py, \
+  */admin.py, \
+  */apps.py, \
+  */forms.py, \
+  */migrations/*, \
+  */models.py, \
+  */templatetags/*, \
+  */tests.py, \
+  */validators.py, \
+  */serializers.py, \
+  */permissions.py
+
+[xml]
+output = coverage.xml
+
+[html]
+directory = html_report
