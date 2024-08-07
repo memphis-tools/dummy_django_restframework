@@ -2,7 +2,6 @@
 ![Screenshot](https://img.shields.io/badge/djangorestframework-v3.15.2-blue?logo=django&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/coveralls--blue?logo=coveralls&logoColor=yellow)
 ![pylint and flake](https://github.com/memphis-tools/dummy_django_restframework/actions/workflows/lint-flake.yml/badge.svg)
-![pylint]()
 [![Coverage Status](https://coveralls.io/repos/github/memphis-tools/dummy_django_restframework/badge.svg?branch=main)](https://coveralls.io/github/memphis-tools/dummy_django_restframework?branch=main)
 ![Known Vulnerabilities](https://snyk.io/test/github/memphis-tools/dummy_django_restframework/badge.svg)
 
