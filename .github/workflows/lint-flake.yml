@@ -37,6 +37,7 @@ jobs:
     - name: Run Tests and Upload Coverage
       env:
         SECRET_KEY: "dummy-secret-key"
+        DEFAULT_USER_PASSWORD: "dummy-password"
       run: |
         coverage run -m pytest
         coverage report
