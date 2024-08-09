@@ -1,4 +1,4 @@
-name: PyLint & Flake
+name: PyLint, Flake & Test
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install -U pip
-        pip install -r requirements.txt
+        pip install -r dummy_django_restframework/requirements.txt
     - name: Analysing the code with pylint
       run: |
         pylint dummy_django_restframework/dummy_django_restframework/ --output=lint.txt || true
