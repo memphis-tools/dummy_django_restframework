@@ -72,7 +72,7 @@ We have 2 docker compose files:
 
 As several steps are involved for initialization, no entrypoint is made.
 
-  docker compose -f docker-compose-init.yml up -d
+    docker compose -f docker-compose-init.yml up -d
 
 **we copy the MongoDB dump**
 
