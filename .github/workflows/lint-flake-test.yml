@@ -41,10 +41,12 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         POSTGRES_HOST: "localhost"
         POSTGRES_USER: "admin"
-        POSTGRES_PASSWORD: "wedontcare"
+        POSTGRES_PASSWORD: "we_dont_care"
         POSTGRES_DB: "movies_db"
         POSTGRES_PORT: "5432"
         POSTGRES_ENGINE: "django.db.backends.postgresql"
+        MONGO_INITDB_ROOT_USERNAME: "admin"
+        MONGO_INITDB_ROOT_PASSWORD: "we_dont_care"
       run: |
         docker compose -f docker-compose-init.yml up -d
         export PYTHONPATH=$PYTHONPATH:./dummy_django_restframework
