@@ -1,16 +1,12 @@
 import os
 import urllib.parse
-import shutil
-from pathlib import Path
-from PIL import Image
 from django.core.management.base import BaseCommand
 from pymongo import MongoClient
 
 from movies.models import Actor, Country, Genre, Movie
 
 
-SOURCE_IMAGE_PATH = 'dummy_mongodb_imdb_movies/app/movies_pictures/'
-DESTINATION_IMAGE_PATH = Path('media/')
+SOURCE_IMAGE_PATH = 'media/'
 
 
 def import_mongodb_movies_into_django_db():
@@ -37,13 +33,6 @@ def import_mongodb_movies_into_django_db():
     db = client[mongo_db]
     collection = db["movies"]
     mongodb_movies_list = list(collection.find({}))
-
-    # With old Pillow version we used "Image.ANTIALIAS"
-    # For modern version, Resampling.LANCZOS
-    # Not necessary here, we just save a dummy image for movie when none found on IMDb
-    with Image.open("dummy_mongodb_imdb_movies/app/movie_picture/no_image_available.jpg") as img:
-        resized_img = img.resize((190, 281), Image.Resampling.LANCZOS)
-        resized_img.save(f"{DESTINATION_IMAGE_PATH}/no_image_available.jpg")
 
     # mongodb_movies_list = list(mongodb_movies_list)
     total_movies = len(mongodb_movies_list)
@@ -84,10 +73,6 @@ def import_mongodb_movies_into_django_db():
             new_movie.countries_of_origin.add(country)
 
         movie_image_file = os.path.join(SOURCE_IMAGE_PATH, movie_image_name)
-        if os.path.exists(movie_image_file):
-            shutil.copy2(movie_image_file, DESTINATION_IMAGE_PATH)
-        else:
-            movie_image_name = "no_image_available.jpg"
         new_movie.image = movie_image_name
         new_movie.save()
         print(f"Saving movie: {index}/{total_movies}", end="\r")

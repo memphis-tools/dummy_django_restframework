@@ -7,8 +7,12 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = False
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+DEBUG = os.getenv("DEBUG", False)
+ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
+CORS_ORIGIN_WHITELIST = [
+    "http://0.0.0.0:5555",
+    "http://127.0.0.1",
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -61,10 +65,18 @@ WSGI_APPLICATION = "dummy_django_restframework.wsgi.application"
 # Database
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        'ENGINE': os.environ.get("POSTGRES_ENGINE"),
+        "NAME": os.environ.get("POSTGRES_DATABASE"),
+        "USER": os.environ.get("POSTGRES_USER"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", ""),
+        "HOST": os.environ.get("POSTGRES_HOST"),
+        "PORT": int(os.environ.get("POSTGRES_PORT")),
+        "TEST": {
+            "NAME": "test_default_db_name", 
+        },
     }
 }
+
 
 
 # Password validation
@@ -85,6 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
+# we keep the english format (example for movies ratings using a '.' for float)
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Europe/Paris"
 USE_I18N = True
@@ -95,11 +108,12 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR.joinpath("static")]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+    STATICFILES_DIRS = [BASE_DIR.joinpath("static")]
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STORAGES = {
         'staticfiles': {
             'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
@@ -108,10 +122,6 @@ if not DEBUG:
             'BACKEND': 'django.core.files.storage.FileSystemStorage',
         },
     }
-else:
-    STATICFILES_DIRS = [BASE_DIR.joinpath("static")]
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

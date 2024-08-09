@@ -9,6 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         try:
             copy_dump_command = [
+                "sudo",
                 "docker",
                 "cp",
                 "dummy_mongodb_imdb_movies/app/db_dump",
@@ -24,6 +25,7 @@ class Command(BaseCommand):
             admin_username = os.getenv("MONGO_INITDB_ROOT_USERNAME")
             admin_password = os.getenv("MONGO_INITDB_ROOT_PASSWORD")
             restore_dump_command = [
+                "sudo",
                 "docker",
                 "exec",
                 "dummy_mongodb_movies",
