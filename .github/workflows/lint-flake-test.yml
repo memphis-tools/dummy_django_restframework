@@ -45,8 +45,8 @@ jobs:
         POSTGRES_DB: "movies_db"
         POSTGRES_PORT: "5432"
         POSTGRES_ENGINE: "django.db.backends.postgresql"
-        MONGO_INITDB_ROOT_USERNAME: "admin"
-        MONGO_INITDB_ROOT_PASSWORD: "we_dont_care"
+        MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+        MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
       run: |
         docker compose -f docker-compose-init.yml up -d
         export PYTHONPATH=$PYTHONPATH:./dummy_django_restframework
