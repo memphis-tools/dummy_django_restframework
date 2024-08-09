@@ -4,11 +4,7 @@
 ![Screenshot](https://img.shields.io/badge/postgresql-v15-blue?logo=postgresql&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/docker--blue?logo=docker&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/coveralls--blue?logo=coveralls&logoColor=yellow)
-<<<<<<< Updated upstream
-![pylint and flake](https://github.com/memphis-tools/dummy_django_restframework/actions/workflows/lint-flake.yml/badge.svg)
-=======
 ![pylint flake test](https://github.com/memphis-tools/dummy_django_restframework/actions/workflows/lint-flake-test.yml/badge.svg)
->>>>>>> Stashed changes
 [![Coverage Status](https://coveralls.io/repos/github/memphis-tools/dummy_django_restframework/badge.svg?branch=main)](https://coveralls.io/github/memphis-tools/dummy_django_restframework?branch=main)
 ![Known Vulnerabilities](https://snyk.io/test/github/memphis-tools/dummy_django_restframework/badge.svg)
 
