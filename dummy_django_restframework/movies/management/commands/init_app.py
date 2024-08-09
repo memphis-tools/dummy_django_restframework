@@ -1,7 +1,6 @@
 import os
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
-from django.core.management import call_command
 
 from movies.models import Genre, Movie
 
@@ -44,4 +43,3 @@ class Command(BaseCommand):
             User.objects.create_user(**new_user)
 
         self.stdout.write(self.style.SUCCESS("Django project database is initialized Sir"))
-        call_command("start_dummy_mongodb_movies")

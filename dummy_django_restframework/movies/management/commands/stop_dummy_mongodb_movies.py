@@ -7,7 +7,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         try:
-            command = ["docker", "compose", "-f", "dummy_mongodb_imdb_movies/docker-compose.yml", "down"]
+            command = ["sudo", "docker", "compose", "-f", "dummy_mongodb_imdb_movies/docker-compose.yml", "down"]
             subprocess.run(
                 command,
                 check=True,
