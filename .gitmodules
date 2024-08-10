@@ -1,3 +1,0 @@
-[submodule "dummy_mongodb_imdb_movies"]
-	path = dummy_mongodb_imdb_movies
-	url = https://github.com/memphis-tools/dummy_mongodb_imdb_movies.git
