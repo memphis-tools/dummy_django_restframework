@@ -202,16 +202,16 @@ class TestGenre(DummyApiTestCase):
         filtered_url = self.url + "?name=romance"
         response = self.client.get(filtered_url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data['results']), 1)
-        self.assertEqual(response.data['results'][0]['name'], 'romance')
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['name'], 'romance')
 
     def test_multiple_filtered_list(self):
         filtered_url = self.url + "?name=thriller&name=romance"
         response = self.client.get(filtered_url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data['results']), 2)
-        self.assertEqual(response.data['results'][0]['name'], 'romance')
-        self.assertEqual(response.data['results'][1]['name'], 'thriller')
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data[0]['name'], 'romance')
+        self.assertEqual(response.data[1]['name'], 'thriller')
 
     def test_create_with_user_viewset_without_authentication(self):
         genre_data = {"name": "fantasy-romance"}
