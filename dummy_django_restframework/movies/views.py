@@ -1,4 +1,4 @@
-from django.core.validators import validate_slug
+import re
 from django.db.models import Q
 from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import PageNumberPagination
@@ -148,8 +148,9 @@ class MovieAPIViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
             q_objects = Q()
             for genre in genre_names:
                 try:
-                    # a genre name can only contains letters, numbers, underscore or hyphens
-                    validate_slug(genre)
+                    # a genre name can only contains letters, numbers, underscore or hyphens, and 1 white space
+                    if not re.match(r'^[\w-]+(\s[\w-]+)?$', genre):
+                        raise ValidationError(f"Invalid genre name {genre}")
                     # the genre name is not case sensitive
                     q_objects |= Q(genre__name__iexact=genre)
                 except ValidationError:
