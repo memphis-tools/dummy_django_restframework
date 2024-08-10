@@ -1,6 +1,7 @@
 from django.core.validators import validate_slug
 from django.db.models import Q
 from rest_framework.exceptions import ValidationError
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from .models import Actor, Country, Genre, Movie
@@ -97,10 +98,15 @@ class CountryAPIViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
         return queryset
 
 
+class NoPagination(PageNumberPagination):
+    page_size = None
+
+
 class GenreAPIViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
     """A Genre model viewset"""
     serializer_class = GenreListSerializer
     detail_serializer_class = GenreDetailSerializer
+    pagination_class = NoPagination
 
     def get_queryset(self):
         name = self.request.GET.getlist("name")
@@ -110,10 +116,15 @@ class GenreAPIViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
         return queryset
 
 
+class DefaultPagination(PageNumberPagination):
+    page_size = 5
+
+
 class MovieAPIViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
     """A Movie model viewset"""
     serializer_class = MovieListSerializer
     detail_serializer_class = MovieDetailSerializer
+    pagination_class = DefaultPagination
 
     def get_queryset(self):
         queryset = Movie.objects.all()
@@ -140,7 +151,7 @@ class MovieAPIViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
                     # a genre name can only contains letters, numbers, underscore or hyphens
                     validate_slug(genre)
                     # the genre name is not case sensitive
-                    q_objects |= Q(agenre__name__iexact=genre)
+                    q_objects |= Q(genre__name__iexact=genre)
                 except ValidationError:
                     raise ValidationError(f"Invalid genre name {genre}")
             queryset = queryset.filter(genres__name__in=genre_names).distinct()
@@ -159,7 +170,7 @@ class MovieAPIViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
     def look_for_sort_by(self, queryset):
         sort_by = self.request.GET.get("sort_by")
         if sort_by:
-            queryset = queryset.order_by(sort_by)
+            queryset = queryset.order_by(sort_by, "id")
         return queryset
 
     def look_for_page_size(self, queryset):
