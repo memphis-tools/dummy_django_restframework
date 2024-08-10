@@ -164,6 +164,16 @@ I have not fullfill the documentation. To synthesize it quickly. Read below.
 
 Only admin can create, update or delete actors, countries, genres or movies.
 
+## ABOUT PUBLISH NEW IMAGES
+
+    docker build -t dummy_django_restframework:latest -f dummy_django_restframework/Dockerfile dummy_django_restframework/
+
+    docker tag dummy_django_restframework:latest your_dockerhub_username/public_repo:dummy_django_restframework
+
+    docker login -u your_dockerhub_username
+
+    docker push your_dockerhub_username/public_repo:dummy_django_restframework
+
 ## USEFULL LINKS
 
 Django REST Framework: https://www.django-rest-framework.org/
