@@ -13,6 +13,7 @@ services:
       - DEBUG
       - SECRET_KEY
       - DJANGO_ALLOWED_HOSTS
+      - CORS_ALLOWED_ORIGINS
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
@@ -28,8 +29,9 @@ services:
     volumes:
       - static_volume:/home/dummy-operator/web/staticfiles
       - media_volume:/home/dummy-operator/web/media
+      - ./certs:/etc/nginx/certs
     ports:
-      - 80:8080
+      - 443:443
     depends_on:
       - django_drf
 

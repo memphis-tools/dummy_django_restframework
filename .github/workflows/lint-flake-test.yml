@@ -47,8 +47,9 @@ jobs:
         POSTGRES_ENGINE: "django.db.backends.postgresql"
         MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
         MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
+        IS_TESTING: True
       run: |
-        docker compose -f docker-compose-init.yml up -d
+        docker compose -f docker-compose-test.yml up -d
         export PYTHONPATH=$PYTHONPATH:./dummy_django_restframework
         coverage run -m pytest
         coverage report
