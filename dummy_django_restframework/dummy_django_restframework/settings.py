@@ -5,14 +5,19 @@ from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG", False)
-ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0"]
-CORS_ORIGIN_WHITELIST = [
-    "http://0.0.0.0:5555",
-    "http://127.0.0.1",
-]
+DEBUG = os.getenv("DEBUG", "0").lower() in ["1", "True"]
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
+
+IS_TESTING = os.getenv("IS_TESTING", "False") == "True"
+if not IS_TESTING:
+    USE_X_FORWARDED_HOST = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    DEFAULT_HTTP_PROTOCOL = 'https'
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS").split(",")
 
 # Application definition
 INSTALLED_APPS = [
@@ -65,14 +70,14 @@ WSGI_APPLICATION = "dummy_django_restframework.wsgi.application"
 # Database
 DATABASES = {
     "default": {
-        'ENGINE': os.environ.get("POSTGRES_ENGINE"),
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("POSTGRES_DATABASE"),
         "USER": os.environ.get("POSTGRES_USER"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", ""),
         "HOST": os.environ.get("POSTGRES_HOST"),
         "PORT": int(os.environ.get("POSTGRES_PORT")),
         "TEST": {
-            "NAME": "test_default_db_name", 
+            "NAME": "test_default_db_name",
         },
     }
 }
@@ -95,7 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # we keep the english format (example for movies ratings using a '.' for float)
 LANGUAGE_CODE = "en-us"
@@ -109,11 +113,9 @@ STATICFILES_DIRS = [BASE_DIR.joinpath("static")]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+LOGIN_REDIRECT_URL = '/api/v1/'
 
 if not DEBUG:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    STATICFILES_DIRS = [BASE_DIR.joinpath("static")]
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STORAGES = {
         'staticfiles': {
             'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
