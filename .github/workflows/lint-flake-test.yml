@@ -41,7 +41,7 @@ jobs:
         DJANGO_ALLOWED_HOSTS: "localhost"
         CORS_ALLOWED_ORIGINS: ""
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        POSTGRES_HOST: "localhost"
+        POSTGRES_HOST: "db"
         POSTGRES_USER: "admin"
         POSTGRES_PASSWORD: "we_dont_care"
         POSTGRES_DB: "movies_db"
