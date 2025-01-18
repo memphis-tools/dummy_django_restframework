@@ -1,4 +1,4 @@
-![Screenshot](https://img.shields.io/badge/python-v3.11-blue?logo=python&logoColor=yellow)
+![Screenshot](https://img.shields.io/badge/python-v3.12.8-blue?logo=python&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/djangorestframework-v3.15.2-blue?logo=django&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/gunicorn-v22.0-blue?logo=gunicorn&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/postgresql-v15-blue?logo=postgresql&logoColor=yellow)
@@ -21,7 +21,7 @@ The project's aim is to provide a REST API using Django REST Framework, which th
 Datas can be accessed without authentication.
 
 ## TECHNOLOGIES
-Python 3.11 and later
+Python 3.12.8 and later
 
 Django Rest Framework
 
