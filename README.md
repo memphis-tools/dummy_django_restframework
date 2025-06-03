@@ -44,7 +44,7 @@ At the project root folder, touch (create) a ".env" file. Set something like thi
 
     export SECRET_KEY="super_secret_key"
     export DEBUG=0
-    export DJANGO_ALLOWED_HOSTS="192.168.1.5"
+    export DJANGO_ALLOWED_HOSTS="192.168.1.5,localhost"
     export ADMIN_PASSWORD="super_p@ssword"
     export DEFAULT_USER_PASSWORD="super_p@ssword"
     export CORS_ALLOWED_ORIGINS="https://dummy-imdb-movies-frontend.dev:4443,https://localhost:4443"
@@ -143,11 +143,13 @@ So remember, once the application is initialized we do not need the MongoDB cont
 
     source .env
 
-    **export PYTHONPATH=$PYTHONPATH:./dummy_django_restframework**
+    export DJANGO_ALLOWED_HOSTS="192.168.1.5,localhost"
 
-    **export POSTGRES_HOST=localhost**
+    export PYTHONPATH=$PYTHONPATH:./dummy_django_restframework
 
-    **export IS_TESTING=True**
+    export POSTGRES_HOST=localhost
+
+    export IS_TESTING=True
 
     docker compose -f docker-compose-test.yml up -d
 

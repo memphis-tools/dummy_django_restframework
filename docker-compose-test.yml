@@ -25,7 +25,7 @@ services:
       - IS_TESTING
 
   db:
-    image: postgres:15.0-alpine
+    image: postgres:17.5-alpine
     container_name: db
     volumes:
       - postgres_data:/var/lib/postgresql/data/

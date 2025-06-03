@@ -36,7 +36,7 @@ services:
       - django_drf
 
   db:
-    image: postgres:15.0-alpine
+    image: postgres:17.5-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     expose:
