@@ -40,11 +40,11 @@ First we clone the repository:
 
     git submodule update --remote
 
-At the project root folder, touch (create) a ".env" file. Set something like this:
+At the project root folder, touch (create) a ".env" file. Set something like this (update ip address):
 
     export SECRET_KEY="super_secret_key"
     export DEBUG=0
-    export DJANGO_ALLOWED_HOSTS="192.168.1.5,localhost"
+    export DJANGO_ALLOWED_HOSTS="192.168.1.5"
     export ADMIN_PASSWORD="super_p@ssword"
     export DEFAULT_USER_PASSWORD="super_p@ssword"
     export CORS_ALLOWED_ORIGINS="https://dummy-imdb-movies-frontend.dev:4443,https://localhost:4443"
