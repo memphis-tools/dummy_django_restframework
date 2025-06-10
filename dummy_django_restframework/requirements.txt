@@ -41,7 +41,7 @@ pytest-django==4.8.0
 pytest-xdist==3.6.1
 PyYAML==6.0.2
 referencing==0.35.1
-requests==2.32.3
+requests==2.32.4
 rpds-py==0.20.0
 sqlparse==0.5.1
 tomlkit==0.13.0
