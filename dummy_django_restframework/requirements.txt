@@ -19,7 +19,7 @@ execnet==2.1.2
 flake8==7.3.0
 flake8-report==0.1.0a1
 gunicorn==25.1.0
-idna==3.11
+idna==3.15
 inflection==0.5.1
 iniconfig==2.3.0
 isort==8.0.1
