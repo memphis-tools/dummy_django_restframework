@@ -5,7 +5,7 @@ services:
     command:
       sh -c "gunicorn dummy_django_restframework.wsgi:application --bind 0.0.0.0:8000"
     volumes:
-      - static_volume:/home/dummy-operator/web/staticfiles
+      - static_volume:/home/dummy-operator/web/staticfiles/rest_framework
       - media_volume:/home/dummy-operator/web/media
     expose:
       - 8000
@@ -27,9 +27,8 @@ services:
       dockerfile: ./nginx/Dockerfile
     container_name: nginx
     volumes:
-      - static_volume:/home/dummy-operator/web/staticfiles
+      - static_volume:/home/dummy-operator/web/staticfiles/rest_framework
       - media_volume:/home/dummy-operator/web/media
-      - ./certs:/etc/nginx/certs
     ports:
       - 443:443
     depends_on:
@@ -37,6 +36,7 @@ services:
 
   db:
     image: postgres:17.5-alpine
+    container_name: db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     expose:
