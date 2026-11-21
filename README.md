@@ -1,7 +1,7 @@
-![Screenshot](https://img.shields.io/badge/python-v3.12.8-blue?logo=python&logoColor=yellow)
-![Screenshot](https://img.shields.io/badge/djangorestframework-v3.15.2-blue?logo=django&logoColor=yellow)
+![Screenshot](https://img.shields.io/badge/python-v3.14.10-blue?logo=python&logoColor=yellow)
+![Screenshot](https://img.shields.io/badge/djangorestframework-v3.18.3-blue?logo=django&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/gunicorn-v22.0-blue?logo=gunicorn&logoColor=yellow)
-![Screenshot](https://img.shields.io/badge/postgresql-v15-blue?logo=postgresql&logoColor=yellow)
+![Screenshot](https://img.shields.io/badge/postgresql-v17.5-blue?logo=postgresql&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/docker--blue?logo=docker&logoColor=yellow)
 ![Screenshot](https://img.shields.io/badge/coveralls--blue?logo=coveralls&logoColor=yellow)
 ![pylint flake test](https://github.com/memphis-tools/dummy_django_restframework/actions/workflows/lint-flake-test.yml/badge.svg)
@@ -21,13 +21,14 @@ The project's aim is to provide a REST API using Django REST Framework, which th
 Datas can be accessed without authentication.
 
 ## TECHNOLOGIES
-Python 3.12.8 and later
 
-Django Rest Framework
+Python 3.14.10
+
+Django Rest Framework 3.18.3
 
 Docker
 
-Postgresql
+Postgresql 17.5
 
 ## HOW RUN IT ?
 
@@ -36,18 +37,22 @@ First we clone the repository:
 
     git clone --recurse-submodules https://github.com/memphis-tools/dummy_django_restframework.git
 
+Get into it:
+
     cd dummy_django_restframework
+
+Refresh at any time the submodule:
 
     git submodule update --remote
 
-At the project root folder, touch (create) a ".env" file. Set something like this (update ip address):
+At the project root folder, **touch (create) a ".env" file**. Set something like this (update ip address):
 
     export SECRET_KEY="super_secret_key"
     export DEBUG=0
-    export DJANGO_ALLOWED_HOSTS="192.168.1.5"
+    export DJANGO_ALLOWED_HOSTS="192.168.1.2,localhost,127.0.0.1""
     export ADMIN_PASSWORD="super_p@ssword"
     export DEFAULT_USER_PASSWORD="super_p@ssword"
-    export CORS_ALLOWED_ORIGINS="https://dummy-imdb-movies-frontend.dev:4443,https://localhost:4443"
+    export CORS_ALLOWED_ORIGINS="https://dummy-imdb-movies-frontend.dev:4443,https://localhost:4443,https://localhost:443"
     export MONGO_SERVER="dummy_mongodb_movies"
     export MONGO_PORT="27017"
     export MONGO_DB="movies_db"
@@ -58,16 +63,10 @@ At the project root folder, touch (create) a ".env" file. Set something like thi
     export POSTGRES_DB="movies_db"
     export POSTGRES_PORT="5432"
     export POSTGRES_HOST="db"
-    export DOCKER_HUB_USER="your_dockerhub_username"
-    export DOCKER_HUB_PASSWORD="your_dockerhub_password_or_pat"
-
-    source .env
 
 We will simulate locally the https usage so we create a self signed certificate for Nginx:
 
-    mkdir certs
-
-    openssl req -x509 -nodes -days 3650 -newkey rsa:2049 -out certs/dummy-django-restframework.crt -keyout certs/dummy-django-restframework.key -subj "/CN=dummy-django-restframework.dev"
+    openssl req -x509 -nodes -days 3650 -newkey rsa:2049 -out certs/dummy-django-restframework.pem -keyout certs/dummy-django-restframework.key -subj "/CN=dummy-django-restframework.dev"
 
 Optional: update your DNS entries, add self signed cert to your ca-trust.
 
@@ -76,13 +75,8 @@ Notice the CORS settings. **We are waiting for this hypothetic client**:
     CORS_ALLOWED_ORIGINS = [
         "https://dummy_imdb_movies_frontend.dev:4443",
         "https://localhost:4443",
+        "https://localhost:443"
     ]
-
-We use nginx-unprivileged:alpine image. We check the nginx user ids and update the certs owner.
-
-    docker run --rm nginxinc/nginx-unprivileged:alpine id nginx
-
-    chown -R 101: certs
 
 ### RUN APP FOR THE FIRST TIME
 We have 3 docker compose files:
@@ -93,7 +87,9 @@ We have 3 docker compose files:
 
   docker-compose-test.yml is used during test, we do not use a reverse proxy.
 
-As several steps are involved for initialization, no entrypoint is made.
+As **several steps are involved for initialization**, no entrypoint is made.
+
+    source .env
 
     docker compose -f docker-compose-init.yml up -d
 
@@ -107,9 +103,23 @@ As several steps are involved for initialization, no entrypoint is made.
 
 **we copy images**
 
+A dummy one:
+
     docker cp dummy_mongodb_imdb_movies/app/movie_picture/no_image_available.jpg django_drf:/home/dummy-operator/web/media/
 
+The movies one:
+
     docker cp dummy_mongodb_imdb_movies/app/movies_pictures/movies_pictures.tar.gz django_drf:/home/dummy-operator/web/media/
+
+We update the file owner for the dummy one:
+
+    docker exec -u root -it django_drf chown dummy-operator: /home/dummy-operator/web/media/no_image_available.jpg
+
+We update the file owner for the movies one:
+
+    docker exec -u root -it django_drf chown dummy-operator: /home/dummy-operator/web/media/movies_pictures.tar.gz
+
+We untar the archive with movies images:
 
     docker exec django_drf tar -C /home/dummy-operator/web/media/ --strip-components=2 -xvf /home/dummy-operator/web/media/movies_pictures.tar.gz
 
@@ -133,6 +143,10 @@ So remember, once the application is initialized we do not need the MongoDB cont
 
     docker compose -f docker-compose.yml up -d
 
+<img src="pictures/dummy_django_restframework.png" width="100%%" height="auto">
+
+<img src="pictures/dummy_django_restframework_gui.png" width="100%%" height="auto">
+
 ## TO RUN TESTS
 
     python -m venv venv
@@ -143,7 +157,7 @@ So remember, once the application is initialized we do not need the MongoDB cont
 
     source .env
 
-    export DJANGO_ALLOWED_HOSTS="192.168.1.5,localhost"
+    export DJANGO_ALLOWED_HOSTS="192.168.1.2,localhost"
 
     export PYTHONPATH=$PYTHONPATH:./dummy_django_restframework
 
@@ -189,7 +203,7 @@ I have not fullfill the documentation. To synthesize it quickly. Read below.
 
     https://localhost/api/v1/movies/?genre=action&genre=romance
 
-Only admin can create, update or delete actors, countries, genres or movies.
+**Only admin can create, update or delete actors, countries, genres or movies.**
 
 ## ABOUT PUBLISH NEW IMAGES
 
@@ -206,3 +220,5 @@ Only admin can create, update or delete actors, countries, genres or movies.
 Django REST Framework: https://www.django-rest-framework.org/
 
 DRF Spectacular: https://drf-spectacular.readthedocs.io/en/latest/
+
+GitHub Actions: https://github.com/actions/checkout

@@ -36,8 +36,9 @@ services:
     volumes:
       - static_volume:/home/dummy-operator/web/staticfiles
       - media_volume:/home/dummy-operator/web/media
-      - ./certs:/etc/nginx/certs
+      - ./certs:/etc/nginx/certs:ro,Z
     ports:
+      - 80:80
       - 443:443
     depends_on:
       - django_drf
@@ -62,8 +63,8 @@ services:
     volumes:
       - mongo-data:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD
 
 volumes:
   media_volume:

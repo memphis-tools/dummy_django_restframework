@@ -22,18 +22,18 @@ services:
       - POSTGRES_PORT
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./nginx/Dockerfile
+    image: dummy_django_restframework-nginx:latest
     container_name: nginx
     volumes:
       - static_volume:/home/dummy-operator/web/staticfiles
       - media_volume:/home/dummy-operator/web/media
-      - ./certs:/etc/nginx/certs
+      - ./certs:/etc/nginx/certs:ro,Z
     ports:
+      - 80:80
       - 443:443
     depends_on:
       - django_drf
+
 
   db:
     image: postgres:17.5-alpine

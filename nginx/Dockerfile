@@ -1,9 +1,13 @@
-FROM nginxinc/nginx-unprivileged:alpine
+FROM nginx:1.30.0-alpine3.23-slim
 
+RUN apk upgrade --no-cache && apk add openssl
 RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
+COPY nginx/nginx.conf /etc/nginx/conf.d/
 
-USER root
-RUN chown -R nginx: /etc/nginx/
+RUN rm /var/log/nginx/access.log
+RUN rm /var/log/nginx/error.log
 
-USER nginx
+RUN mkdir /etc/nginx/certs
+RUN touch /var/log/nginx/access.log
+RUN touch /var/log/nginx/error.log
+RUN chown -R nginx: /etc/nginx/ /var/log/nginx/ /var/cache/nginx/
