@@ -5,15 +5,14 @@ on: [push, pull_request]
 jobs:
   scanning:
     name: GitGuardian scan
-    #runs-on: ubuntu-latest
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7.01
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0 # fetch all history so multiple commits can be scanned
       - name: GitGuardian scan
-        uses: GitGuardian/ggshield-action@v1.35.0
+        uses: GitGuardian/ggshield-action@v1.56.1
         env:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
