@@ -78,15 +78,6 @@ Notice the CORS settings. **We are waiting for this hypothetic client**:
         "https://localhost:443"
     ]
 
-<<<<<<< HEAD
-=======
-We use nginx-unprivileged:alpine image. We check the nginx user ids and update the certs owner.
-
-      docker run --rm nginxinc/nginx-unprivileged:alpine id nginx
-
-      chown -R 101: certs
-
->>>>>>> 6c161a7b424ab6320ba10fae99341216aff0ac21
 ### RUN APP FOR THE FIRST TIME
 We have 3 docker compose files:
 
@@ -112,7 +103,6 @@ As **several steps are involved for initialization**, no entrypoint is made.
 
 **we copy images**
 
-<<<<<<< HEAD
 A dummy one:
 
     docker cp dummy_mongodb_imdb_movies/app/movie_picture/no_image_available.jpg django_drf:/home/dummy-operator/web/media/
@@ -120,12 +110,6 @@ A dummy one:
 The movies one:
 
     docker cp dummy_mongodb_imdb_movies/app/movies_pictures/movies_pictures.tar.gz django_drf:/home/dummy-operator/web/media/
-=======
-      docker cp dummy_mongodb_imdb_movies/app/movie_picture/no_image_available.jpg django_drf:/home/dummy-operator/web/media/
-
-      docker cp dummy_mongodb_imdb_movies/app/movies_pictures/movies_pictures.tar.gz django_drf:/home/dummy-operator/web/media/
-
->>>>>>> 6c161a7b424ab6320ba10fae99341216aff0ac21
 
 We update the file owner for the dummy one:
 
