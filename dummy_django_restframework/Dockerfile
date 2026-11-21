@@ -9,6 +9,7 @@ ENV HOME=/home/dummy
 ENV APP_HOME=/home/dummy-operator/web
 RUN mkdir $APP_HOME; \
     mkdir $APP_HOME/staticfiles; \
+    mkdir $APP_HOME/staticfiles/rest_framework; \
     mkdir $APP_HOME/media;
 WORKDIR $APP_HOME
 
